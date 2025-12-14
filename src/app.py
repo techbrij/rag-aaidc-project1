@@ -15,21 +15,16 @@ load_dotenv()
 
 def load_documents() -> List[Dict]:
     """
-    Load documents for demonstration.
+    Read all .txt files from data directory
 
     Returns:
-        List of sample documents
+         [{"content": str, "metadata": {"name": filename, "last_modified_timestamp" : timestamp }}]
     """
     results = []
-    # TODO: Implement document loading
-    # HINT: Read the documents from the data directory
-    # HINT: Return a list of documents
-    # HINT: Your implementation depends on the type of documents you are using (.txt, .pdf, etc.)
 
-    # Your implementation here
     for file_name in os.listdir(DATA_DIR):
         if file_name.endswith(".txt"):
-            # Read and return the file content
+            # Read and get the file content
             try:
                 file_path = os.path.join(DATA_DIR, file_name)
                 with open(file_path, "r", encoding="utf-8") as file:
@@ -37,7 +32,7 @@ def load_documents() -> List[Dict]:
                     if content:
                         results.append({'content': content, 'metadata': {'name': file_name, 'last_modified_timestamp': os.path.getmtime(file_path)}})
             except IOError as e:
-                print(f"Error reading file: {e}")            
+                print(f"Error reading file {file_name}: {e}")            
     return results
 
 
@@ -60,13 +55,7 @@ class RAGAssistant:
         # Initialize vector database
         self.vector_db = VectorDB()       
 
-        # Create RAG prompt template
-        # TODO: Implement your RAG prompt template
-        # HINT: Use ChatPromptTemplate.from_template() with a template string
-        # HINT: Your template should include placeholders for {context} and {question}
-        # HINT: Design your prompt to effectively use retrieved context to answer questions
-        # Your implementation here
-
+        # RAG prompt template to effectively use retrieved context to answer questions
         template_str = """
         You are a knowledgeable assistant. Answer the user's question **ONLY** using
         the information provided in the context below.
@@ -79,7 +68,7 @@ class RAGAssistant:
         ### Output Constraint
 
         - Only answer questions based on the provided documents.
-        - If the user's question is not related to the documents, then you SHOULD NOT answer the question. Say "The question is not answerable given the documents".
+        - If the user's question is not related to the documents, then you SHOULD NOT answer the question. Say "The question is not answerable from the provided documents".
         - Never answer a question from your own knowledge.
         - Provide answers in markdown format.
         - Provide concise answers in bullet points when relevant.
@@ -151,17 +140,13 @@ class RAGAssistant:
             n_results: Number of relevant chunks to retrieve
 
         Returns:
-            Dictionary containing the answer and retrieved context
+            String containing the answer
         """
         llm_answer = ""
 
-        # TODO: Implement the RAG query pipeline
-        # HINT: Use self.vector_db.search() to retrieve relevant context chunks
-        # HINT: Combine the retrieved document chunks into a single context string
-        # HINT: Use self.chain.invoke() with context and question to generate the response
-        # HINT: Return a string answer from the LLM
+        # Implement the RAG query pipeline
 
-        # Your implementation here
+        # Retrieve relevant context chunks
         results = self.vector_db.search(input, n_results)
         # documents, metadatas, distances = results["documents"], results["metadatas"], results["distances"]
         relevant_documents = results["documents"]
@@ -174,6 +159,7 @@ class RAGAssistant:
             print("-" * 100)
         print("")     
 
+        # Build the context and generate the response
         context = "\n\n---\n\n".join(relevant_documents)
         llm_answer = self.chain.invoke({"context": context, "question": input})               
         return llm_answer
