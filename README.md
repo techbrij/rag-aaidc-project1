@@ -2,18 +2,23 @@
 
 ## 🤖 Overview
 
-This is a **complete RAG (Retrieval-Augmented Generation) AI assistant** that enables intelligent question-answering over custom document collections. RAG systems combine document search with AI chat - they can answer questions about your specific documents by finding relevant information and using it to generate responses.
+This is a **RAG (Retrieval-Augmented Generation) AI assistant** that enables intelligent question-answering over custom document collections. RAG systems combine document search with AI chat - they can answer questions about your specific documents by finding relevant information and using it to generate responses.
 
 **Think of it as:** ChatGPT that knows about YOUR documents and can answer questions about them.
 
-## 🎯 What this system does
+## 📝 Implementation Steps
 
-This AI assistant can:
+The project has 7 main steps:
 
-- 📄 **Load your documents** (text files, etc.)
-- 🔍 **Search through them** to find relevant information
-- 💬 **Answer questions** using the information it found
-- 🧠 **Combine multiple sources** to give comprehensive answers
+1. **Prepare Your Documents** - Add your own documents to the data directory
+2. **Document Loading** - loads `.txt` files from data directory
+3. **Text Chunking** - Split documents into smaller, searchable chunks
+4. **Document Ingestion** - Process, embedding the chunks and store the information in the vector database  
+5. **Similarity Search** - On user query, the question is embedded and get relevant documents from vector search
+6. **RAG Prompt Template** - Design effective prompts for the LLM
+7. **RAG Query Pipeline** - Complete query-response pipeline using retrieved context
+
+---
 
 ## 🚀 Setup Instructions
 
@@ -38,11 +43,27 @@ Before starting, make sure you have:
 
 1. **Clone and install dependencies:**
 
+   - Clone the repository
    ```bash
-   git clone [your-repo-url]
-   cd [project folder]
+   git clone [repo-url]
+   cd [repo folder]
+   ```
+   - Create Virtual Environment
+   ```
    python3 -m venv venv
-   .\venv\Scripts\Activate.ps1   # Activate Virtual environment (Windows powershell)
+   ```
+   - Activate the virtual environment:
+
+      On Windows:
+      ```
+      venv\Scripts\activate
+      ```
+      On macOS/Linux:
+      ```
+      source venv/bin/activate
+      ```
+   - Install dependencies
+   ```
    pip install -r requirements.txt
    ```
 
@@ -83,22 +104,7 @@ Try these example questions:
 - "Explain [concept from your documents]"
 - "How does [process from your documents] work?"
 
-
-
-## 📝 Implementation Steps
-
-The project has 7 main steps:
-
-1. **Prepare Your Documents** - Add your own documents to the data directory
-2. **Document Loading** - Load documents from files into the system
-3. **Text Chunking** - Split documents into smaller, searchable chunks
-4. **Document Ingestion** - Process and store documents in the vector database  
-5. **Similarity Search** - Find relevant documents based on queries
-6. **RAG Prompt Template** - Design effective prompts for the LLM
-7. **RAG Query Pipeline** - Complete query-response pipeline using retrieved context
-
----
-
+## Implementation
 ### Step 1: Prepare Your Documents
 
 **Replace the sample documents with your own content**
