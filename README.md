@@ -121,13 +121,12 @@ Before starting, make sure you have:
 
 The system automatically processes documents in the `data/` directory and provides an interactive interface for asking questions.
 
-### Example Queries
+### Example 
 
-Try these example questions:
+Try the following question:
 
-- "What is [topic from your documents]?"
-- "Explain [concept from your documents]"
-- "How does [process from your documents] work?"
+- "What is AI responsible development?"
+
 
 ### Output Screenshot
 
@@ -227,6 +226,43 @@ Each file should contain text content you want your RAG system to search through
 - Return structured results
 
 ---
+
+## Evaluation and Analysis
+
+### Evaluation Methodology
+
+The evaluation focused on three core components:
+
+- **Document Loading:** Measuring the time required to load all source documents from disk.
+- **Document Ingestion:** Measuring the time to add documents to the vector database.
+- **Assistant Response:** Measuring the response time for the assistant to answer a set of representative user queries.
+
+For each component, we executed the relevant function multiple times and recorded the elapsed time using Python’s time module. For the assistant’s response, we used a set of diverse questions and averaged the response times over several runs to ensure reliability and account for variability due to external API calls.
+
+run following command to run the test
+```
+pytest tests/test_performance.py -s
+```
+
+### Performance Metrics
+- Load Time: Time (in seconds) to read and parse all documents from the data directory.
+- Ingestion Time: Time (in seconds) to add all documents to the vector database.
+- Response Time: Average time (in seconds) for the assistant to generate an answer to a user query, measured over multiple runs and multiple questions.
+- Correctness: Each response was checked to ensure it was a non-empty string, indicating successful processing.
+
+### Test Lab Setup
+
+- Infrastructure: Windows 11, 32 GB RAM, 2TB SSD, i7-13650HX
+- Environment: Python 3.13.7, gemini-2.5-flash, LangChain 0.3.27
+- Total Documents: 7
+- Total Chunks: 35
+
+Use different types of questions for different test cases:
+
+- Q1: What is artificial intelligence? (Simple)
+- Q2: What are Machine Learning and MLOps? (Multi-documents question)
+- Q3: Who is home minister of India? (Out of context)
+
 ## Contributing
 If you want to contribute to improve the framework, please refer to the guidelines below for how you can contribute:
 
